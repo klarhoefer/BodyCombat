@@ -30,15 +30,28 @@ viewTracks model =
     |> List.map (\n -> viewTrackNumber n model)
 
 
+nth : Int -> List x -> Maybe x
+nth n l =
+    case l of
+        [] -> Nothing
+        h :: t ->
+            if n == 1 then
+                Just h
+            else
+                nth (n - 1) t
+
+
 viewTrackNumber : Int -> Model -> Html Msg
 viewTrackNumber n model =
     let
         tracks =
             List.filter (\t -> t.track == n) model.tracks
             |> List.sortBy (\t -> -t.release)
+        selected = nth n model.selected |> Maybe.withDefault defaultTrack
     in
         div []
             [ h4 [] [ text <| "Track #" ++ (String.fromInt n) ]
+            , (viewTrack selected)
             , div [ class "tracksN" ]
                 (List.map viewTrack tracks)
             ]

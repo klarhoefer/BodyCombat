@@ -19,8 +19,7 @@ main = Browser.element
 
 
 init : () -> (Model, Cmd Msg)
-init _ =
-    (Model [] Nothing, loadTracks)
+init _ = (defaultModel, loadTracks)
 
 
 subscriptions : Model -> Sub Msg
@@ -34,6 +33,24 @@ update msg model =
         GotTracks loadRes ->
             case loadRes of
                 Ok tracks ->
-                    ({model | tracks = tracks}, Cmd.none)
+                    ({model | tracks = tracks
+                            , selected = firstOfEach tracks
+                     }
+                    , Cmd.none
+                    )
                 Err e ->
                     ({model | errMsg = Just (errorMessage e)}, Cmd.none)
+
+
+firstOfEach : List Track -> List Track
+firstOfEach tracks =
+    List.range 1 10
+    |> List.map (\n -> firstOf n tracks)
+
+firstOf : Int -> List Track -> Track
+firstOf n tracks =
+    tracks
+    |> List.filter (\t -> t.track == n)
+    |> List.sortBy (\t -> -t.release)
+    |> List.head
+    |> Maybe.withDefault defaultTrack
