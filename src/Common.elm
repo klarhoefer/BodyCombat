@@ -1,8 +1,10 @@
 module Common exposing (..)
 
+import Http
+
 
 type Msg
-    = Noop
+    = GotTracks (Result Http.Error (List Track))
 
 
 type alias Track =
@@ -16,5 +18,6 @@ type alias Track =
 
 type alias Model =
     { tracks : List Track
+    , errMsg : Maybe String
     }
 

@@ -4,7 +4,10 @@ module Main exposing (..)
 import Browser
 
 import Common exposing (..)
+import Data exposing (loadTracks)
 import View exposing (view)
+import Data exposing (errorMessage)
+
 
 main : Program () Model Msg
 main = Browser.element
@@ -15,10 +18,9 @@ main = Browser.element
     }
 
 
-
 init : () -> (Model, Cmd Msg)
 init _ =
-    (Model [], Cmd.none)
+    (Model [] Nothing, loadTracks)
 
 
 subscriptions : Model -> Sub Msg
@@ -29,4 +31,9 @@ subscriptions _ =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        Noop -> (model, Cmd.none)
+        GotTracks loadRes ->
+            case loadRes of
+                Ok tracks ->
+                    ({model | tracks = tracks}, Cmd.none)
+                Err e ->
+                    ({model | errMsg = Just (errorMessage e)}, Cmd.none)
