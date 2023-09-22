@@ -51,10 +51,13 @@ viewTrackNumber n model =
     in
         div []
             [ h4 [] [ text <| "Track #" ++ (String.fromInt n) ]
-            , (viewTrack selected)
-            , div [ class "tracksN" ]
-                (List.map viewTrack tracks)
+            , if model.open /= n then
+                (viewSelectedTrack selected n)
+              else
+                div [ class "tracksN" ]
+                    (List.map viewTrack tracks)
             ]
+
 
 releaseName : Float -> String
 releaseName r =
@@ -66,6 +69,13 @@ releaseName r =
 
 viewTrack : Track -> Html Msg
 viewTrack track =
-    div []
+    div [ onClick (TrackClicked track) ]
+        [ text <| (releaseName track.release) ++ " " ++ track.artist ++ "/" ++ track.title 
+        ]
+
+
+viewSelectedTrack : Track -> Int -> Html Msg
+viewSelectedTrack track n =
+    div [ onClick (SelectedClicked n) ]
         [ text <| (releaseName track.release) ++ " " ++ track.artist ++ "/" ++ track.title 
         ]

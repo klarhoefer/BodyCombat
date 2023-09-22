@@ -5,6 +5,8 @@ import Http
 
 type Msg
     = GotTracks (Result Http.Error (List Track))
+    | TrackClicked Track
+    | SelectedClicked Int
 
 
 type alias Track =
@@ -14,6 +16,7 @@ type alias Track =
     , track : Int
     , seconds : Maybe Int
     }
+
 
 defaultTrack : Track
 defaultTrack = Track "" "" 0 0 Nothing
@@ -25,6 +28,7 @@ type alias Model =
     , selected : List Track
     , open : Int
     }
+
 
 defaultModel : Model
 defaultModel = Model [] Nothing [] 0

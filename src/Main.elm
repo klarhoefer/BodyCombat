@@ -40,12 +40,23 @@ update msg model =
                     )
                 Err e ->
                     ({model | errMsg = Just (errorMessage e)}, Cmd.none)
+        TrackClicked track ->
+            ({model | selected = (replaceSelected model.selected track)
+                    , open = 0
+             }
+            , Cmd.none
+            )
+        SelectedClicked n ->
+            ({model | open = n}
+            , Cmd.none
+            )
 
 
 firstOfEach : List Track -> List Track
 firstOfEach tracks =
     List.range 1 10
     |> List.map (\n -> firstOf n tracks)
+
 
 firstOf : Int -> List Track -> Track
 firstOf n tracks =
@@ -54,3 +65,14 @@ firstOf n tracks =
     |> List.sortBy (\t -> -t.release)
     |> List.head
     |> Maybe.withDefault defaultTrack
+
+
+replaceSelected : List Track -> Track -> List Track
+replaceSelected tracks track =
+    case tracks of
+        [] -> []
+        t :: h ->
+            if t.track == track.track then
+                track :: h
+            else
+                t :: (replaceSelected h track)
