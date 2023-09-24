@@ -16,9 +16,14 @@ view model =
                 Just err ->
                     div [] [ text err ]
                 Nothing ->
-                    div []
-                        [ div []
-                            (viewTracks model)
+                    div [ class "outer" ]
+                        [ table []
+                            ((tr []
+                                [ th [] [ text "#" ]
+                                , th [] [ text "Title" ]
+                                ]
+                             ) :: (viewTracks model)
+                            )
                         ]
             )
         ]
@@ -49,13 +54,15 @@ viewTrackNumber n model =
             |> List.sortBy (\t -> -t.release)
         selected = nth n model.selected |> Maybe.withDefault defaultTrack
     in
-        div []
-            [ h4 [] [ text <| "Track #" ++ (String.fromInt n) ]
+        tr []
+            [ td [ style "text-align" "right" ] [ text <| String.fromInt n ]
             , if model.open /= n then
-                (viewSelectedTrack selected n)
+                td [] [viewSelectedTrack selected n]
               else
-                div [ class "tracksN" ]
-                    (List.map viewTrack tracks)
+                td []
+                    [ div [ class "tracksN" ]
+                        (List.map viewTrack tracks)
+                    ]
             ]
 
 

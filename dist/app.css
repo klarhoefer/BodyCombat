@@ -5,4 +5,12 @@ body {
 .tracksN {
     max-height: 10em;
     overflow-y: scroll;
+    margin: 4px;
+    background-color: lightgray;
+}
+
+.outer {
+    border-radius: 8px;
+    border: 1px solid gray;
+    padding: 8px;
 }
