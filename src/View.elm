@@ -56,6 +56,8 @@ view model =
                                 ]
                              ) :: (viewTracks model)
                             )
+                        , div []
+                            [ text <| "Total " ++ (minutes model.seconds) ]
                         ]
             )
         ]
@@ -96,7 +98,6 @@ viewSingleTrack track =
     , td [] [ text track.title ]
     , td [ style "text-align" "right" ] [ text <| minutes track.seconds]
     ]
-
 
 
 viewTrack : Track -> Html Msg

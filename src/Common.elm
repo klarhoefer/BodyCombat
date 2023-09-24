@@ -26,9 +26,10 @@ type alias Model =
     { tracks : List Track
     , errMsg : Maybe String
     , selected : List Track
+    , seconds : Maybe Int
     , open : Int
     }
 
 
 defaultModel : Model
-defaultModel = Model [] Nothing [] 0
+defaultModel = Model [] Nothing [] Nothing 0

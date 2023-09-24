@@ -9,6 +9,20 @@ import View exposing (view)
 import Data exposing (errorMessage)
 
 
+addSeconds : Maybe Int -> Maybe Int -> Maybe Int
+addSeconds a b =
+    case (a, b) of
+        (Just x, Just y) -> Just (x + y)
+        _ -> Nothing
+
+
+sumSeconds : List Track -> Maybe Int
+sumSeconds tracks =
+    tracks
+    |> List.map (\t -> t.seconds)
+    |> List.foldl addSeconds (Just 0)
+
+
 main : Program () Model Msg
 main = Browser.element
     { init = init
@@ -33,19 +47,27 @@ update msg model =
         GotTracks loadRes ->
             case loadRes of
                 Ok tracks ->
-                    ({model | tracks = tracks
-                            , selected = firstOfEach tracks
-                     }
-                    , Cmd.none
-                    )
+                    let
+                        selected = firstOfEach tracks
+                    in
+                        ({model | tracks = tracks
+                                , selected = selected
+                                , seconds = sumSeconds selected
+                        }
+                        , Cmd.none
+                        )
                 Err e ->
                     ({model | errMsg = Just (errorMessage e)}, Cmd.none)
         TrackClicked track ->
-            ({model | selected = (replaceSelected model.selected track)
-                    , open = 0
-             }
-            , Cmd.none
-            )
+            let
+                selected = replaceSelected model.selected track
+            in
+                ({model | selected = selected
+                        , seconds = sumSeconds selected
+                        , open = 0
+                }
+                , Cmd.none
+                )
         SelectedClicked n ->
             ({model | open = n}
             , Cmd.none
