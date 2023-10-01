@@ -1,12 +1,13 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 80%;
 }
 
 .tracksN {
     max-height: 10em;
     overflow-y: scroll;
     margin: 4px;
-    background-color: lightgray;
+    font-size: 80%;
 }
 
 .outer {

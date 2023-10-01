@@ -46,18 +46,21 @@ view model =
         [
             (case model.errMsg of
                 Just err ->
-                    div [] [ text err ]
+                    div [] [ text <| "Error: " ++ err ]
                 Nothing ->
                     div [ class "outer" ]
                         [ table []
-                            ((tr []
+                            (((tr []
                                 [ th [ style "text-align" "right" ] [ text "#" ]
                                 , th [ colspan 3 ] [ text "Title" ]
                                 ]
                              ) :: (viewTracks model)
+                            ) ++ [ tr []
+                                    [ th [ colspan 3, style "text-align" "right", style "padding-right" "8px" ] [ text "Total" ]
+                                    , th [ style "text-align" "right" ] [ text <| minutes model.seconds ]
+                                    ]
+                                ]
                             )
-                        , div []
-                            [ text <| "Total " ++ (minutes model.seconds) ]
                         ]
             )
         ]
