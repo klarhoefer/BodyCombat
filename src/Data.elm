@@ -19,7 +19,7 @@ errorMessage e =
 loadTracks : Cmd Msg
 loadTracks =
     Http.get
-        { url = "http://klarhoefer.lima-city.de/bodycombatjson.php"
+        { url = "https://klarhoefer.lima-city.de/bodycombatjson.php"
         , expect = Http.expectJson GotTracks trackListDecoder
         }
 

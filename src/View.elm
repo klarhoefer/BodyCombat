@@ -97,7 +97,7 @@ viewTrackNumber n model =
 
 viewSingleTrack : Track -> List (Html Msg)
 viewSingleTrack track =
-    [ td [ style "text-align" "right" ] [ text <| releaseName track.release ]
+    [ td [ style "text-align" "right", style "padding-left" "8px", style "padding-right" "8px" ] [ text <| releaseName track.release ]
     , td [] [ text track.title ]
     , td [ style "text-align" "right" ] [ text <| minutes track.seconds]
     ]
