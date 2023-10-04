@@ -11,6 +11,10 @@ body {
     font-size: 80%;
 }
 
+.sel {
+    font-weight: bolder;
+}
+
 .outer {
     border-radius: 8px;
     border: 1px solid gray;

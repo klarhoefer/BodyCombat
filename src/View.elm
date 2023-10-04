@@ -89,7 +89,7 @@ viewTrackNumber n model =
                 [ td [ colspan 3 ]
                     [ div [ class "tracksN" ]
                         [ table []
-                            (List.map viewTrack tracks)
+                            (List.map (viewTrack selected) tracks)
                         ]
                     ]
                 ]
@@ -103,7 +103,7 @@ viewSingleTrack track =
     ]
 
 
-viewTrack : Track -> Html Msg
-viewTrack track =
-    tr [ onClick (TrackClicked track) ]
+viewTrack : Track -> Track -> Html Msg
+viewTrack selected track =
+    tr [ onClick (TrackClicked track), classList [("sel", selected.release == track.release)] ]
         (viewSingleTrack track)
