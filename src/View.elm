@@ -87,7 +87,7 @@ viewTrackNumber n model =
                 (viewSingleTrack selected)
               else
                 [ td [ colspan 3 ]
-                    [ div [ class "tracksN" ]
+                    [ div [ class "tracksN", tabindex 1 ]
                         [ table []
                             (List.map (viewTrack selected) tracks)
                         ]
